@@ -1,0 +1,55 @@
+== ex02 - TF-IDF Ranking ==
+
+OBJETIVO:
+  Implementar um motor de busca usando TF-IDF.
+  TF (Term Frequency) = frequencia da palavra no documento
+  IDF (Inverse Document Frequency) = log(total_docs / docs_com_termo)
+  Score final = soma de TF*IDF para cada token da query.
+
+COMO COMPILAR:
+  make
+
+COMO EXECUTAR:
+  ./rag <diretorio_de_documentos>
+  ou
+  ./rag <doc1> <doc2> <doc3> ...
+
+ARQUIVOS DE TESTE:
+  tests/corpus/doc1.txt  - Autenticacao (3 linhas)
+  tests/corpus/doc2.txt  - Banco de dados (3 linhas)
+  tests/corpus/doc3.txt  - Pagamentos (3 linhas)
+  tests/corpus/doc4.txt  - Monitoramento (3 linhas)
+  tests/corpus/doc5.txt  - Deploy/Infra (3 linhas)
+  tests/queries.txt      - queries com analise de ranking esperado
+
+EXEMPLOS DE USO:
+  ./rag tests/corpus/doc1.txt tests/corpus/doc2.txt tests/corpus/doc3.txt tests/corpus/doc4.txt tests/corpus/doc5.txt
+
+  >> token autenticacao
+  # Esperado: doc1 no topo (IDF alto - palavras exclusivas de doc1)
+
+  >> Docker Kubernetes deploy
+  # Esperado: doc5 no topo (3 termos exclusivos = IDF maximo)
+
+  >> sistema
+  # Esperado: scores baixos e distribuidos ("sistema" aparece em quase todos)
+
+COMO VERIFICAR O TF-IDF:
+  Exemplo com 5 docs e query "Docker Kubernetes":
+    - "Docker" aparece so em doc5 -> IDF = log(5/1) = 1.609
+    - "Kubernetes" aparece so em doc5 -> IDF = log(5/1) = 1.609
+    - TF de "Docker" em doc5 = 1/total_palavras_doc5
+    - Score doc5 = TF_docker * IDF_docker + TF_kubernetes * IDF_kubernetes
+    - Score dos outros docs = 0 (nao contem nenhum dos termos)
+
+  Exemplo com query "sistema":
+    - "sistema" aparece em 4 dos 5 docs -> IDF = log(5/4) = 0.223
+    - IDF baixo = pouca capacidade de diferenciar documentos
+
+O QUE AVALIAR:
+  - TF calculado corretamente (frequencia / total de palavras)?
+  - IDF calculado corretamente (log(N/df))?
+  - Divisao por zero tratada (termo em nenhum doc)?
+  - Documentos normalizados para lowercase?
+  - Ranking faz sentido (termos raros pesam mais)?
+  - Classe TFIDF em arquivos separados (.cpp/.hpp)?

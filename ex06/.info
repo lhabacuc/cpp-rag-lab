@@ -1,0 +1,82 @@
+== ex06 - Full RAG Pipeline ==
+
+OBJETIVO:
+  Combinar todos os exercicios anteriores em um pipeline completo:
+  query -> tokenize -> embed -> vector search -> top_k -> context -> response
+
+COMO COMPILAR:
+  make
+
+COMO EXECUTAR:
+  ./rag <diretorio_knowledge_base>
+
+  O programa carrega todos os .txt do diretorio, processa e entra
+  em modo interativo para receber queries em linguagem natural.
+
+ARQUIVOS DE TESTE:
+  tests/knowledge_base/       - diretorio com 4 arquivos tematicos:
+    auth.txt                  - 6 linhas sobre autenticacao
+    database.txt              - 6 linhas sobre banco de dados
+    payments.txt              - 6 linhas sobre pagamentos
+    infra.txt                 - 6 linhas sobre infraestrutura/deploy
+  tests/queries.txt           - 8 queries em linguagem natural
+
+EXEMPLOS DE USO:
+  ./rag tests/knowledge_base/
+
+  >> Como funciona o login no sistema?
+  # Pipeline:
+  #   1. Tokenizar: ["como", "funciona", "login", "sistema"]
+  #   2. Remover stopwords: ["funciona", "login", "sistema"]
+  #   3. Gerar embedding da query
+  #   4. Buscar top-k chunks mais similares
+  #   5. Montar contexto com os chunks recuperados
+  #   6. Exibir resposta
+  #
+  # Esperado: chunks de auth.txt no contexto
+  # Output deve mencionar: JWT, token, email, senha, 24 horas
+
+  >> Qual banco de dados o sistema usa?
+  # Esperado: chunks de database.txt
+  # Output: PostgreSQL, Redis, Elasticsearch
+
+  >> Quais metodos de pagamento sao aceitos?
+  # Esperado: chunks de payments.txt
+  # Output: cartao de credito, boleto, PIX
+
+  >> receita de bolo de chocolate
+  # Esperado: nenhum resultado relevante
+  # O pipeline deve indicar que nao encontrou informacao
+
+FLUXO COMPLETO DO PIPELINE:
+  1. INGESTAO (startup):
+     - Carregar documentos do diretorio
+     - Dividir em chunks (ex04)
+     - Tokenizar cada chunk (ex01)
+     - Calcular TF-IDF ou embeddings (ex02/ex03)
+     - Indexar no vector index (ex05)
+
+  2. QUERY (interativo):
+     - Receber query do usuario
+     - Tokenizar a query
+     - Gerar embedding da query
+     - Buscar top-k no indice (ex05)
+     - Recuperar chunks correspondentes
+     - Montar contexto (concatenar chunks relevantes)
+     - Exibir contexto como resposta
+
+COMO VERIFICAR:
+  - Fazer queries sobre cada tema e confirmar que os chunks corretos
+    sao recuperados (auth, database, payments, infra)
+  - Queries sem match devem ser tratadas graciosamente
+  - O contexto gerado deve conter informacao relevante
+  - Cada etapa do pipeline deve ser testavel isoladamente
+
+O QUE AVALIAR:
+  - Pipeline completo funciona end-to-end?
+  - Classes separadas para cada etapa (Retriever)?
+  - Chunks corretos sao recuperados para cada query?
+  - Queries sem resultado sao tratadas?
+  - Compila com -std=c++98 -Wall -Wextra -Werror?
+  - Bonus: ranking hibrido TF-IDF + vector funciona?
+  - Bonus: multiplos documentos sao suportados?

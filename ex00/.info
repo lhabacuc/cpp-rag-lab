@@ -1,0 +1,47 @@
+== ex00 - Naive Retrieval ==
+
+OBJETIVO:
+  Busca simples por palavras em um documento de texto.
+  O programa recebe um arquivo e uma query, e retorna as linhas
+  que contem palavras da query.
+
+COMO COMPILAR:
+  make
+
+COMO EXECUTAR:
+  ./rag <arquivo>
+
+  O programa entra em modo interativo. Digite uma query e
+  pressione Enter para ver os resultados.
+  Digite "exit" para sair.
+
+ARQUIVOS DE TESTE:
+  tests/small.txt    - 5 linhas, ideal para testes rapidos
+  tests/medium.txt   - 20 linhas, cobre mais cenarios
+  db.rag             - documento completo sobre um sistema (90 linhas)
+
+EXEMPLOS DE USO:
+  ./rag tests/small.txt
+  >> login
+  O login retorna um token
+
+  ./rag tests/small.txt
+  >> cache
+  Redis e usado para cache
+
+  ./rag tests/medium.txt
+  >> Docker Kubernetes
+  O deploy e feito com Docker e Kubernetes
+
+QUERIES SUGERIDAS (ver tests/queries.txt para mais):
+  - "login"              -> deve retornar linha sobre token
+  - "PostgreSQL"         -> deve retornar linha sobre banco
+  - "banana"             -> nenhum resultado (teste negativo)
+  - "senha email"        -> deve retornar linha sobre reset de senha
+
+O QUE AVALIAR:
+  - O programa carrega o arquivo corretamente?
+  - Retorna linhas que contem a palavra buscada?
+  - Lida com queries sem resultado?
+  - Lida com arquivo inexistente?
+  - Compila com -std=c++98 -Wall -Wextra -Werror?

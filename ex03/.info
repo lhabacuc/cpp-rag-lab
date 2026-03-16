@@ -1,0 +1,57 @@
+== ex03 - Vector Similarity Search ==
+
+OBJETIVO:
+  Representar documentos e queries como vetores numericos e
+  calcular a similaridade usando cosine similarity.
+  cosine_similarity(A, B) = dot(A, B) / (|A| * |B|)
+
+COMO COMPILAR:
+  make
+
+COMO EXECUTAR:
+  ./rag <arquivo>
+
+ARQUIVOS DE TESTE:
+  tests/docs.txt      - 10 linhas sobre diferentes temas do sistema
+  tests/queries.txt   - 7 queries com resultado esperado e edge cases
+
+EXEMPLOS DE USO:
+  ./rag tests/docs.txt
+  >> login token autenticacao
+  # Esperado top-1: linha sobre autenticacao JWT
+
+  >> banco dados PostgreSQL usuarios
+  # Esperado top-1: linha sobre PostgreSQL
+
+  >> chocolate sorvete pizza
+  # Esperado: score 0 para todos (nenhuma palavra no corpus)
+
+COMO FUNCIONA A VETORIZACAO:
+  1. Construir vocabulario de todas as palavras unicas do corpus
+     Ex: ["sistema", "autenticacao", "tokens", "JWT", "banco", ...]
+
+  2. Cada documento vira um vetor onde posicao[i] = frequencia da palavra[i]
+     Doc "O banco de dados PostgreSQL" -> [0, 0, 0, 0, 1, 1, 1, ...]
+
+  3. A query tambem vira vetor no mesmo espaco
+     Query "banco dados" -> [0, 0, 0, 0, 1, 1, 0, ...]
+
+  4. Calcular cosine similarity entre query e cada documento
+     Retornar os top-k mais similares
+
+COMO VERIFICAR:
+  Para vetores simples A=[1,0,1] e B=[1,1,0]:
+    dot(A,B) = 1*1 + 0*1 + 1*0 = 1
+    |A| = sqrt(1+0+1) = 1.414
+    |B| = sqrt(1+1+0) = 1.414
+    cosine = 1 / (1.414 * 1.414) = 0.5
+
+  Vetores identicos -> cosine = 1.0
+  Vetores ortogonais -> cosine = 0.0
+
+O QUE AVALIAR:
+  - Vetores tem tamanho fixo (tamanho do vocabulario)?
+  - Cosine similarity calculado corretamente?
+  - Vetores vazios tratados (sem divisao por zero)?
+  - Ranking retorna documentos ordenados por similaridade?
+  - Classe VectorSearch em arquivos separados (.cpp/.hpp)?

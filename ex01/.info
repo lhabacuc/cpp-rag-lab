@@ -1,0 +1,45 @@
+== ex01 - Token Based Retrieval ==
+
+OBJETIVO:
+  Melhorar a busca do ex00 com tokenizacao e scoring.
+  A query e dividida em tokens (palavras) e cada linha recebe
+  um score baseado em quantos tokens da query aparecem nela.
+  Resultados sao ordenados por score.
+
+COMO COMPILAR:
+  make
+
+COMO EXECUTAR:
+  ./rag <arquivo>
+
+ARQUIVOS DE TESTE:
+  tests/docs.txt      - 10 linhas cobrindo diversos temas
+  tests/queries.txt   - queries com scores esperados documentados
+
+EXEMPLOS DE USO:
+  ./rag tests/docs.txt
+  >> login token
+  # Esperado (ordenado por score):
+  #   "O sistema de login retorna um token JWT..." -> score 2
+  #   "O token JWT expira apos 24 horas..."        -> score 1
+
+  >> banco dados PostgreSQL
+  # Esperado:
+  #   "O banco de dados PostgreSQL armazena..."     -> score 3
+
+  >> xyz abc
+  # Esperado: nenhum resultado (score 0 para tudo)
+
+COMO VERIFICAR O SCORING:
+  Para a query "login token" no docs.txt:
+    - Tokenizar: ["login", "token"]
+    - Linha 1: "...login...token JWT..." -> encontra "login"(1) + "token"(1) = score 2
+    - Linha 5: "...token JWT expira..."  -> encontra "token"(1) = score 1
+    - Linha 2: "...PostgreSQL..."        -> nenhum match = score 0
+
+O QUE AVALIAR:
+  - Tokenizer divide corretamente a query?
+  - Score e calculado por numero de tokens encontrados?
+  - Resultados sao ordenados por score decrescente?
+  - Desempate por ordem original funciona?
+  - Classe Tokenizer esta em arquivos separados (.cpp/.hpp)?

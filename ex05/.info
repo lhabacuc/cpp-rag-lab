@@ -1,0 +1,57 @@
+== ex05 - Vector Index ==
+
+OBJETIVO:
+  Criar um indice vetorial em memoria (mini FAISS).
+  Armazena embeddings e permite buscar os k vetores mais proximos
+  de uma query usando cosine similarity (brute force).
+
+COMO COMPILAR:
+  make
+
+COMO EXECUTAR:
+  ./rag <arquivo_de_vetores> <k>
+
+ARQUIVOS DE TESTE:
+  tests/vectors.txt  - 10 vetores de 8 dimensoes, organizados em 3 clusters:
+                       Cluster 1 (ids 0,1,2): "autenticacao" - valores altos na dim 0
+                       Cluster 2 (ids 3,4,5): "banco de dados" - valores altos na dim 2
+                       Cluster 3 (ids 6,7,8): "deploy" - valores altos nas dims 6,7
+                       Isolado   (id 9):      vetor uniforme [0.3, 0.3, ...]
+  tests/queries.txt  - queries vetoriais com k e resultados esperados
+
+EXEMPLOS DE USO:
+  ./rag tests/vectors.txt 3
+
+  # Buscar vetor proximo ao cluster 1 (autenticacao):
+  >> 0.85 0.15 0.0 0.25 0.0 0.05 0.0 0.0
+  # Esperado: ids 0, 1, 2 (os 3 vetores do cluster 1)
+
+  # Buscar vetor proximo ao cluster 3 (deploy):
+  >> 0.0 0.0 0.0 0.0 0.05 0.0 0.85 0.85
+  # Esperado: ids 6, 7, 8
+
+COMO VERIFICAR:
+  O formato de vectors.txt e:
+    id | v1 v2 v3 v4 v5 v6 v7 v8
+
+  Calcular manualmente cosine similarity para validar:
+    query = [0.85, 0.15, 0, 0.25, 0, 0.05, 0, 0]
+    vec_0 = [0.9, 0.1, 0, 0.2, 0, 0.1, 0, 0]
+    dot   = 0.85*0.9 + 0.15*0.1 + 0.25*0.2 + 0.05*0.1 = 0.835
+    |q|   = sqrt(0.7225+0.0225+0.0625+0.0025) = 0.9
+    |v0|  = sqrt(0.81+0.01+0.04+0.01) = 0.933
+    cos   = 0.835 / (0.9 * 0.933) = 0.994  (muito proximo!)
+
+EDGE CASES PARA TESTAR:
+  - k=1: deve retornar apenas o vetor mais proximo
+  - k=20 com 10 vetores: deve retornar todos os 10 (sem crash)
+  - query vetor zero [0,0,...,0]: tratar sem divisao por zero
+  - indice vazio: deve lidar graciosamente
+
+O QUE AVALIAR:
+  - Vetores sao armazenados corretamente em memoria?
+  - Busca top-k retorna os k mais proximos?
+  - Caso k > total de vetores e tratado?
+  - Vetores vazios nao causam crash?
+  - Classe VectorIndex em arquivos separados (.cpp/.hpp)?
+  - Bonus: persistencia em arquivo binario funciona?

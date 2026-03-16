@@ -1,0 +1,65 @@
+== ex04 - Document Chunking ==
+
+OBJETIVO:
+  Dividir documentos grandes em chunks (pedacos) menores para
+  que a busca retorne apenas a parte relevante, nao o documento inteiro.
+  Essencial em sistemas RAG reais.
+
+COMO COMPILAR:
+  make
+
+COMO EXECUTAR:
+  ./rag <arquivo> [chunk_size]
+
+  chunk_size = numero maximo de linhas por chunk (default sugerido: 10)
+
+ARQUIVOS DE TESTE:
+  tests/large_doc.txt  - documento grande (~130 linhas, 9 secoes)
+                         Secoes: Autenticacao, Arquitetura, Banco de Dados,
+                         API, Pagamentos, Notificacoes, Monitoramento,
+                         Deploy, Seguranca, Testes
+  tests/queries.txt    - queries que devem retornar chunks especificos
+
+EXEMPLOS DE USO:
+  ./rag tests/large_doc.txt 15
+  >> autenticacao JWT token login
+  # Esperado: retorna apenas o chunk da secao "Sistema de Autenticacao"
+  # NAO deve retornar chunks de Pagamentos ou Deploy
+
+  ./rag tests/large_doc.txt 15
+  >> Docker Kubernetes deploy CI/CD
+  # Esperado: retorna chunk da secao "Deploy e Infraestrutura"
+
+  ./rag tests/large_doc.txt 5
+  >> PostgreSQL Redis cache
+  # Esperado: chunk(s) da secao "Banco de Dados"
+
+COMO VERIFICAR O CHUNKING:
+  Com chunk_size=15 no large_doc.txt:
+    - Chunk 1: linhas 1-15   (Autenticacao)
+    - Chunk 2: linhas 16-30  (Arquitetura)
+    - Chunk 3: linhas 31-45  (Banco de Dados)
+    - ...etc
+
+  Testar com tamanhos diferentes:
+    chunk_size=5   -> muitos chunks pequenos (~26 chunks)
+    chunk_size=15  -> chunks medios (~9 chunks)
+    chunk_size=30  -> poucos chunks grandes (~5 chunks)
+
+  Verificar que metadados de origem sao mantidos:
+    - Qual chunk veio de qual posicao do documento?
+    - O chunk manteve a ordem original?
+
+TESTE DE BONUS (overlap):
+  Com overlap de 3 linhas e chunk_size=10:
+    - Chunk 1: linhas 1-10
+    - Chunk 2: linhas 8-17  (overlap de 3 com chunk 1)
+    - Chunk 3: linhas 15-24 (overlap de 3 com chunk 2)
+  Isso ajuda quando informacao relevante esta na borda entre chunks.
+
+O QUE AVALIAR:
+  - Chunks respeitam o tamanho maximo?
+  - Ordem original e mantida?
+  - Metadados de origem sao salvos (posicao, numero do chunk)?
+  - Funciona com documentos menores que chunk_size?
+  - Classe Chunker em arquivos separados (.cpp/.hpp)?
