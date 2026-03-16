@@ -1,0 +1,34 @@
+# Queries de teste para ex02 - TF-IDF Ranking
+# TF = frequencia do termo no documento
+# IDF = log(total_docs / docs_contendo_termo)
+# Score = soma de TF*IDF para cada token da query
+#
+# Com 5 documentos no corpus:
+
+# Query: token autenticacao
+# Esperado: doc1 deve ter o maior score (tem "token" 2x e "autenticacao" 1x)
+#   - "token" aparece em doc1 apenas -> IDF alto
+#   - "autenticacao" aparece em doc1 apenas -> IDF alto
+#   - doc1 e claramente o mais relevante
+
+# Query: banco dados transacoes
+# Esperado: doc2 e doc3 devem competir pelo topo
+#   - "banco" aparece em doc2 e doc3 -> IDF medio
+#   - "dados" aparece em doc2 e doc3 -> IDF medio
+#   - "transacoes" aparece em doc2 e doc3 -> IDF medio
+#   - doc2 menciona "banco de dados" como tema principal
+
+# Query: sistema
+# Esperado: scores baixos e distribuidos (palavra muito comum)
+#   - "sistema" aparece em todos os docs -> IDF muito baixo
+#   - Nenhum doc deveria se destacar muito
+
+# Query: Docker Kubernetes deploy
+# Esperado: doc5 com score muito alto
+#   - "Docker" so em doc5 -> IDF maximo
+#   - "Kubernetes" so em doc5 -> IDF maximo
+#   - "deploy" so em doc5 -> IDF maximo
+
+# Query: notificacao pagamento usuario
+# Esperado: doc3 no topo
+#   - doc3 fala de notificacoes + pagamento + usuario

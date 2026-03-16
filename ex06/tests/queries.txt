@@ -1,0 +1,36 @@
+# Queries de teste para ex06 - Full RAG Pipeline
+# O pipeline completo deve: query -> embedding -> vector search -> top_k -> context -> response
+#
+# Cada query simula uma pergunta que um usuario faria ao sistema.
+# O pipeline deve recuperar os chunks mais relevantes e gerar contexto.
+
+# Query: Como funciona o login no sistema?
+# Esperado: recuperar chunks de auth.txt
+# Context deve incluir: JWT, token, email, senha, 24 horas
+
+# Query: Qual banco de dados o sistema usa?
+# Esperado: recuperar chunks de database.txt
+# Context deve incluir: PostgreSQL, Redis, Elasticsearch
+
+# Query: Como faco um pagamento?
+# Esperado: recuperar chunks de payments.txt
+# Context deve incluir: cartao, boleto, PIX, Stripe
+
+# Query: Como e feito o deploy?
+# Esperado: recuperar chunks de infra.txt
+# Context deve incluir: Docker, Kubernetes, GitHub Actions
+
+# Query: O sistema e seguro?
+# Esperado: mix de auth.txt (bcrypt, rate limiting) e possivelmente infra.txt (monitoramento)
+
+# Query: Quanto tempo dura o token?
+# Esperado: recuperar chunk especifico de auth.txt
+# Context deve incluir: "24 horas"
+
+# Query: Quais metodos de pagamento sao aceitos?
+# Esperado: recuperar chunk de payments.txt
+# Context deve incluir: "cartao de credito, boleto e PIX"
+
+# Query: receita de bolo de chocolate
+# Esperado: nenhum resultado relevante (score baixo para todos os chunks)
+# O pipeline deve lidar graciosamente com queries sem match

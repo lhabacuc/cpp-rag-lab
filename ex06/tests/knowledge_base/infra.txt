@@ -1,0 +1,6 @@
+Deploy automatizado com Docker e Kubernetes em cluster AWS.
+CI/CD com GitHub Actions: build, test, analise e deploy.
+Helm charts gerenciam os deployments no Kubernetes.
+Auto-scaling configurado para lidar com picos de trafego.
+Monitoramento com Prometheus, Grafana e Jaeger para tracing.
+Logs centralizados com ELK Stack para analise e auditoria.

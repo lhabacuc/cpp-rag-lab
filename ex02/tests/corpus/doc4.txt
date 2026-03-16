@@ -1,0 +1,3 @@
+O monitoramento do sistema utiliza Grafana para visualizacao e Prometheus para coleta de metricas.
+Alertas sao configurados para notificar a equipe quando ha anomalias no sistema.
+Os dashboards mostram metricas de latencia, throughput e taxa de erros.

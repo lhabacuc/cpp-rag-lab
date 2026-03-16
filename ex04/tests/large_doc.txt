@@ -1,0 +1,180 @@
+Sistema de Autenticacao
+
+O sistema utiliza autenticacao baseada em JWT (JSON Web Token).
+Quando um usuario faz login com email e senha validos, o servidor
+retorna um token JWT. Esse token deve ser enviado no header
+Authorization em todas as requisicoes protegidas.
+
+O token tem validade de 24 horas. Apos esse tempo o usuario
+precisa fazer login novamente para obter um novo token.
+
+O sistema tambem suporta autenticacao via OAuth2, permitindo
+que usuarios facam login usando contas do Google ou GitHub.
+A integracao OAuth2 utiliza o fluxo Authorization Code.
+
+Para aumentar a seguranca, o sistema implementa rate limiting
+no endpoint de login, bloqueando tentativas excessivas de
+autenticacao em um curto periodo de tempo.
+
+Arquitetura do Sistema
+
+A aplicacao utiliza uma arquitetura baseada em microservicos.
+Cada servico e responsavel por uma funcionalidade especifica.
+
+Os principais servicos sao:
+- Servico de autenticacao (auth-service)
+- Servico de usuarios (user-service)
+- Servico de pagamentos (payment-service)
+- Servico de notificacoes (notification-service)
+- Servico de relatorios (report-service)
+
+Os servicos comunicam entre si utilizando APIs REST e
+mensageria assincrona via RabbitMQ para operacoes que
+nao precisam de resposta imediata.
+
+Cada servico possui seu proprio banco de dados, seguindo
+o padrao Database per Service. Isso garante isolamento
+e independencia entre os servicos.
+
+Banco de Dados
+
+O banco de dados principal do sistema e PostgreSQL.
+Ele armazena dados de usuarios, transacoes e registros
+de atividade do sistema.
+
+Para melhorar performance, algumas informacoes sao
+armazenadas em cache utilizando Redis. O cache tem
+um TTL configuravel para cada tipo de dado.
+
+O sistema tambem utiliza Elasticsearch para busca
+full-text em documentos e logs do sistema.
+
+As migrations do banco sao gerenciadas com Flyway,
+garantindo versionamento e rastreabilidade das
+mudancas no schema.
+
+API do Sistema
+
+A API do sistema segue o padrao REST com versionamento.
+As principais rotas sao:
+
+POST /api/v1/auth/login
+POST /api/v1/auth/register
+GET /api/v1/users
+GET /api/v1/users/:id
+PUT /api/v1/users/:id
+DELETE /api/v1/users/:id
+GET /api/v1/payments
+POST /api/v1/payments
+GET /api/v1/payments/:id
+
+Todas as rotas protegidas exigem um token JWT valido
+no header Authorization: Bearer <token>.
+
+A documentacao da API e gerada automaticamente com
+Swagger/OpenAPI e disponivel em /api/docs.
+
+Sistema de Pagamentos
+
+O sistema permite realizar pagamentos online utilizando
+cartao de credito, boleto bancario e PIX.
+
+Cada pagamento gera uma transacao registrada no banco
+de dados com os seguintes campos:
+- ID da transacao
+- Valor
+- Metodo de pagamento
+- Status (pendente, aprovado, recusado)
+- Data e hora
+- ID do usuario
+
+O servico de pagamentos se integra com gateways como
+Stripe e PagSeguro para processar as transacoes.
+
+Quando um pagamento e confirmado, o sistema envia uma
+notificacao para o usuario e atualiza o status da
+transacao no banco de dados.
+
+Sistema de Notificacoes
+
+O sistema possui um servico de notificacoes responsavel
+por enviar mensagens para os usuarios.
+
+As notificacoes podem ser enviadas por:
+- Email (utilizando SMTP ou SendGrid)
+- SMS (utilizando Twilio)
+- Push notification (utilizando Firebase)
+- Webhook (para integracoes externas)
+
+Cada notificacao e registrada em uma fila no RabbitMQ
+para processamento assincrono, garantindo que o envio
+nao bloqueie a operacao principal.
+
+O servico suporta templates de notificacao customizaveis
+para diferentes tipos de eventos.
+
+Monitoramento e Observabilidade
+
+O sistema utiliza um stack completo de observabilidade:
+
+- Prometheus para coleta de metricas
+- Grafana para visualizacao e dashboards
+- Jaeger para distributed tracing
+- ELK Stack (Elasticsearch, Logstash, Kibana) para logs
+
+Alertas sao configurados no Grafana para notificar a
+equipe via Slack quando metricas ultrapassam thresholds
+definidos, como latencia alta ou taxa de erros elevada.
+
+Cada servico expoe metricas no formato Prometheus em
+um endpoint /metrics dedicado.
+
+Deploy e Infraestrutura
+
+O deploy do sistema e totalmente automatizado:
+
+- Docker para containerizacao dos servicos
+- Kubernetes para orquestracao dos containers
+- Helm charts para gerenciamento dos deployments
+- ArgoCD para GitOps e continuous delivery
+
+O pipeline de CI/CD utiliza GitHub Actions com as
+seguintes etapas:
+1. Build da imagem Docker
+2. Execucao dos testes unitarios e de integracao
+3. Analise estatica de codigo com SonarQube
+4. Push da imagem para o registry
+5. Deploy automatico no ambiente de staging
+6. Deploy em producao apos aprovacao manual
+
+O cluster Kubernetes possui auto-scaling configurado
+para lidar com picos de trafego automaticamente.
+
+Seguranca
+
+O sistema implementa diversas camadas de seguranca:
+
+- HTTPS obrigatorio em todas as comunicacoes
+- CORS configurado para permitir apenas origens confiavel
+- Helmet.js para headers de seguranca HTTP
+- Rate limiting por IP e por usuario
+- Validacao de input em todas as rotas
+- Sanitizacao de dados para prevenir XSS e SQL injection
+- Criptografia de senhas com bcrypt
+- Rotacao periodica de chaves JWT
+
+Os logs de seguranca sao monitorados em tempo real
+para deteccao de atividades suspeitas.
+
+Testes
+
+O sistema possui uma suite completa de testes:
+
+- Testes unitarios com Jest
+- Testes de integracao com Supertest
+- Testes end-to-end com Cypress
+- Testes de carga com k6
+
+A cobertura minima exigida e de 80 por cento para
+codigo novo. Os testes sao executados automaticamente
+no pipeline de CI/CD antes de cada deploy.

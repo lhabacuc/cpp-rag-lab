@@ -1,0 +1,36 @@
+# Queries de teste para ex00 - Naive Retrieval
+# Formato: query | resultado esperado (linhas que devem aparecer)
+#
+# Teste com small.txt:
+
+login
+# Esperado: "O login retorna um token"
+
+PostgreSQL
+# Esperado: "O sistema usa PostgreSQL"
+
+cache
+# Esperado: "Redis e usado para cache"
+
+senha email
+# Esperado: "O usuario pode resetar a senha por email"
+
+porta
+# Esperado: "O servidor roda na porta 8080"
+
+banana
+# Esperado: (nenhum resultado)
+
+# Teste com medium.txt:
+
+token JWT
+# Esperado: "O sistema de autenticacao utiliza tokens JWT"
+#           "O token e gerado apos o login com email e senha"
+#           "O token expira apos 24 horas"
+#           "O servidor valida o token em cada requisicao"
+
+pagamento notificacao
+# Esperado: "Cada pagamento gera uma notificacao para o usuario"
+
+Docker Kubernetes
+# Esperado: "O deploy e feito com Docker e Kubernetes"

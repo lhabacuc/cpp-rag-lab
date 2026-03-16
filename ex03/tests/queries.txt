@@ -1,0 +1,36 @@
+# Queries de teste para ex03 - Vector Similarity Search
+# Cada documento e query sao representados como vetores
+# A similaridade e calculada via cosine similarity
+#
+# cosine_similarity(A, B) = dot(A, B) / (|A| * |B|)
+#
+# O vocabulario e construido a partir de todas as palavras unicas do corpus.
+# Cada documento/query vira um vetor onde cada posicao = frequencia da palavra.
+
+# Query: login token autenticacao
+# Esperado top-1: "O sistema de autenticacao utiliza tokens JWT para seguranca"
+# Razao: compartilha "autenticacao" e "token/tokens"
+
+# Query: banco dados PostgreSQL usuarios
+# Esperado top-1: "O banco de dados PostgreSQL armazena informacoes de usuarios"
+# Razao: match direto de 4 palavras
+
+# Query: pagamento cartao transacao
+# Esperado top-1: "O sistema de pagamentos processa transacoes com cartao"
+# Razao: match forte em "cartao" e "transacoes/transacao"
+
+# Query: container deploy automatizado
+# Esperado top-1: "O deploy automatizado usa Docker e Kubernetes no cluster"
+# Razao: match em "deploy" e "automatizado"
+
+# Query: email notificacao SMS
+# Esperado top-1: "Notificacoes sao enviadas por email e SMS para usuarios"
+# Razao: match direto em "email" e "SMS"
+
+# Query: cache Redis performance
+# Esperado top-1: "Redis e utilizado como cache para melhorar performance do sistema"
+# Razao: match perfeito
+
+# Query: chocolate sorvete pizza
+# Esperado: todos os scores devem ser 0 ou muito proximos de 0
+# Razao: nenhuma palavra da query existe no corpus

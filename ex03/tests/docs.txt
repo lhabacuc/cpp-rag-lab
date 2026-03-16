@@ -1,0 +1,10 @@
+O sistema de autenticacao utiliza tokens JWT para seguranca
+O banco de dados PostgreSQL armazena informacoes de usuarios
+Redis e utilizado como cache para melhorar performance do sistema
+O servidor aceita requisicoes REST na porta 8080
+O token JWT expira apos 24 horas de uso continuo
+O sistema de pagamentos processa transacoes com cartao
+Notificacoes sao enviadas por email e SMS para usuarios
+O monitoramento utiliza Grafana e Prometheus para metricas
+O deploy automatizado usa Docker e Kubernetes no cluster
+Os logs registram todas as requisicoes e erros da API

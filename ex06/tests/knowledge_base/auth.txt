@@ -1,0 +1,6 @@
+O sistema de autenticacao utiliza tokens JWT para garantir seguranca.
+O token e gerado apos o login com email e senha validos.
+O token expira apos 24 horas e precisa ser renovado.
+Autenticacao OAuth2 e suportada com Google e GitHub.
+Rate limiting protege o endpoint de login contra brute force.
+Senhas sao criptografadas com bcrypt antes de armazenar no banco.

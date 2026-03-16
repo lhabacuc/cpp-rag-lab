@@ -1,0 +1,5 @@
+O login retorna um token
+O sistema usa PostgreSQL
+O servidor roda na porta 8080
+Redis e usado para cache
+O usuario pode resetar a senha por email

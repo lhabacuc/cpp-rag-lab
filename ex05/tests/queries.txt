@@ -1,0 +1,20 @@
+# Queries de teste para ex05 - Vector Index
+# Formato: query_vector | top_k | resultado esperado
+#
+# Query similar ao cluster 1 (autenticacao)
+0.85 0.15 0.0 0.25 0.0 0.05 0.0 0.0 | k=3 | esperado: ids 0, 1, 2 (ordem pode variar)
+#
+# Query similar ao cluster 2 (banco de dados)
+0.0 0.05 0.85 0.0 0.25 0.05 0.05 0.0 | k=3 | esperado: ids 3, 4, 5
+#
+# Query similar ao cluster 3 (deploy)
+0.0 0.0 0.0 0.0 0.05 0.0 0.85 0.85 | k=3 | esperado: ids 6, 7, 8
+#
+# Query com k=1 (deve retornar apenas o mais proximo)
+0.9 0.1 0.0 0.2 0.0 0.1 0.0 0.0 | k=1 | esperado: id 0
+#
+# Query com k maior que total de vetores
+0.5 0.5 0.5 0.5 0.5 0.5 0.5 0.5 | k=20 | esperado: todos os 10 vetores (sem crash)
+#
+# Query vetor zero (edge case)
+0.0 0.0 0.0 0.0 0.0 0.0 0.0 0.0 | k=3 | esperado: tratamento correto (sem divisao por zero)

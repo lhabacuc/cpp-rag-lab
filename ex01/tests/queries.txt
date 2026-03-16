@@ -1,0 +1,29 @@
+# Queries de teste para ex01 - Token Based Retrieval
+# O score e a quantidade de tokens da query encontrados na linha
+#
+# Query: login token
+# Esperado:
+#   "O sistema de login retorna um token JWT para o usuario" -> score 2 (login + token)
+#   "O token JWT expira apos 24 horas de uso" -> score 1 (token)
+#   Demais -> score 0
+
+# Query: banco dados PostgreSQL
+# Esperado:
+#   "O banco de dados PostgreSQL armazena informacoes de usuarios" -> score 3
+#   Demais -> score 0
+
+# Query: sistema
+# Esperado:
+#   "O sistema de login retorna um token JWT para o usuario" -> score 1
+#   "O sistema de pagamentos processa transacoes com cartao de credito" -> score 1
+#   "O monitoramento do sistema utiliza Grafana e Prometheus" -> score 1
+#   "Os logs do sistema registram todas as requisicoes da API" -> score 1
+
+# Query: email notificacoes usuarios
+# Esperado:
+#   "As notificacoes sao enviadas por email e SMS para os usuarios" -> score 3
+#   "O banco de dados PostgreSQL armazena informacoes de usuarios" -> score 1 (usuarios)
+#   "O sistema de login retorna um token JWT para o usuario" -> score 0 (usuario != usuarios sem stemming)
+
+# Query: xyz abc
+# Esperado: todos score 0 (nenhum resultado)

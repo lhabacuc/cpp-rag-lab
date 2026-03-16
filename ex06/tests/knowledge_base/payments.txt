@@ -1,0 +1,6 @@
+O sistema processa pagamentos com cartao de credito, boleto e PIX.
+Integracoes com Stripe e PagSeguro para processar transacoes.
+Cada transacao e registrada com ID unico, valor, metodo e status.
+Notificacoes sao enviadas quando o pagamento e confirmado.
+Reembolsos podem ser solicitados em ate 7 dias apos a compra.
+O sistema processa em media 10 mil transacoes por dia.

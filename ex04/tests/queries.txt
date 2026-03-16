@@ -1,0 +1,35 @@
+# Queries de teste para ex04 - Document Chunking
+# O documento large_doc.txt deve ser dividido em chunks
+# e a busca deve retornar apenas os chunks relevantes.
+#
+# Teste o chunking com diferentes tamanhos:
+#   - chunk_size=5 linhas  (muitos chunks pequenos)
+#   - chunk_size=15 linhas (chunks medios)
+#   - chunk_size=30 linhas (poucos chunks grandes)
+
+# Query: autenticacao JWT token login
+# Esperado: chunk contendo a secao "Sistema de Autenticacao"
+# Nao deve retornar chunks de Pagamentos ou Deploy
+
+# Query: PostgreSQL banco dados Redis cache
+# Esperado: chunk contendo a secao "Banco de Dados"
+
+# Query: Docker Kubernetes deploy CI/CD
+# Esperado: chunk contendo a secao "Deploy e Infraestrutura"
+
+# Query: Grafana Prometheus monitoramento metricas
+# Esperado: chunk contendo a secao "Monitoramento e Observabilidade"
+
+# Query: pagamento cartao boleto PIX transacao
+# Esperado: chunk contendo a secao "Sistema de Pagamentos"
+
+# Query: seguranca HTTPS XSS injection bcrypt
+# Esperado: chunk contendo a secao "Seguranca"
+
+# Query: testes Jest Cypress cobertura
+# Esperado: chunk contendo a secao "Testes"
+
+# Bonus - Com overlap:
+# Se voce implementou overlap entre chunks, verifique que
+# a query "RabbitMQ notificacao fila" retorna o chunk de
+# Notificacoes mesmo que a palavra esteja na borda do chunk.

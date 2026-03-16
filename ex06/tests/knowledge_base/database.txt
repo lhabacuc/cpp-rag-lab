@@ -1,0 +1,6 @@
+O banco de dados principal e PostgreSQL versao 15.
+Redis e usado como cache com TTL configuravel por tipo de dado.
+Elasticsearch e utilizado para busca full-text em documentos.
+Migrations sao gerenciadas com Flyway para versionamento do schema.
+Backups automaticos sao realizados diariamente as 3 da manha.
+O banco suporta ate 500 conexoes simultaneas com connection pooling.

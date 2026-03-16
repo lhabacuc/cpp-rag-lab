@@ -1,0 +1,3 @@
+O banco de dados PostgreSQL e o principal armazenamento do sistema.
+Ele guarda registros de usuarios, transacoes e logs de atividade.
+O backup do banco e realizado diariamente de forma automatica.

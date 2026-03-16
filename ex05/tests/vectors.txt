@@ -1,0 +1,21 @@
+# Vetores de teste para ex05 - Vector Index
+# Formato: id | vetor (valores separados por espaco)
+# Estes vetores simulam embeddings de documentos
+#
+# Cluster 1: documentos sobre autenticacao (vetores proximos entre si)
+0 | 0.9 0.1 0.0 0.2 0.0 0.1 0.0 0.0
+1 | 0.8 0.2 0.0 0.3 0.0 0.0 0.0 0.0
+2 | 0.7 0.1 0.1 0.2 0.0 0.1 0.0 0.0
+#
+# Cluster 2: documentos sobre banco de dados (vetores proximos entre si)
+3 | 0.0 0.1 0.9 0.0 0.2 0.0 0.1 0.0
+4 | 0.0 0.0 0.8 0.0 0.3 0.1 0.0 0.0
+5 | 0.1 0.0 0.7 0.1 0.2 0.0 0.1 0.0
+#
+# Cluster 3: documentos sobre deploy (vetores proximos entre si)
+6 | 0.0 0.0 0.0 0.0 0.1 0.0 0.9 0.8
+7 | 0.0 0.0 0.1 0.0 0.0 0.0 0.8 0.9
+8 | 0.0 0.0 0.0 0.0 0.0 0.1 0.7 0.7
+#
+# Documento isolado
+9 | 0.3 0.3 0.3 0.3 0.3 0.3 0.3 0.3

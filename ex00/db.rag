@@ -1,0 +1,90 @@
+Sistema de Autenticação
+
+O sistema utiliza autenticação baseada em JWT (JSON Web Token).
+Quando um usuário faz login com email e senha válidos, o servidor
+retorna um token JWT. Esse token deve ser enviado no header
+Authorization em todas as requisições protegidas.
+
+O token tem validade de 24 horas. Após esse tempo o usuário
+precisa fazer login novamente para obter um novo token.
+
+---
+
+Arquitetura do Sistema
+
+A aplicação utiliza uma arquitetura baseada em microserviços.
+Cada serviço é responsável por uma funcionalidade específica.
+
+Os principais serviços são:
+- Serviço de autenticação
+- Serviço de usuários
+- Serviço de pagamentos
+- Serviço de notificações
+
+Os serviços comunicam entre si utilizando APIs REST.
+
+---
+
+Banco de Dados
+
+O banco de dados principal do sistema é PostgreSQL.
+Ele armazena dados de usuários, transações e registros
+de atividade do sistema.
+
+Para melhorar performance, algumas informações são
+armazenadas em cache utilizando Redis.
+
+---
+
+API do Sistema
+
+A API do sistema segue o padrão REST.
+As principais rotas são:
+
+POST /login
+POST /register
+GET /users
+GET /payments
+
+Todas as rotas protegidas exigem um token JWT válido.
+
+---
+
+Sistema de Pagamentos
+
+O sistema permite realizar pagamentos online.
+Cada pagamento gera uma transação registrada
+no banco de dados.
+
+O serviço de pagamentos também envia notificações
+para o usuário quando um pagamento é confirmado.
+
+---
+
+Sistema de Notificações
+
+O sistema possui um serviço de notificações responsável
+por enviar mensagens para os usuários.
+
+As notificações podem ser enviadas por:
+- Email
+- SMS
+- Push notification
+
+Esse serviço é utilizado por vários módulos do sistema,
+como pagamentos e autenticação.
+
+---
+
+Logs do Sistema
+
+Todos os serviços geram logs para monitoramento
+e auditoria. Os logs incluem informações sobre:
+
+- login de usuários
+- erros do sistema
+- requisições de API
+- eventos de pagamento
+
+Os logs são utilizados para diagnóstico de problemas
+e análise de comportamento do sistema.

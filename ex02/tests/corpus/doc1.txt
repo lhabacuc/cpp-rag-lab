@@ -1,0 +1,3 @@
+O sistema de autenticacao utiliza tokens JWT para garantir a seguranca das requisicoes.
+O token e gerado no momento do login e enviado no header Authorization.
+Cada token possui um tempo de expiracao configuravel pelo administrador.

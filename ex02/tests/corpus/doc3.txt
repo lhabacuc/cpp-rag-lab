@@ -1,0 +1,3 @@
+O sistema de pagamentos processa transacoes com cartao de credito e boleto bancario.
+Cada transacao e registrada no banco de dados com um identificador unico.
+O servico envia notificacoes ao usuario quando o pagamento e confirmado.
